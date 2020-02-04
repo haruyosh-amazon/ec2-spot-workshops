@@ -28,25 +28,21 @@ weight = 90
 1. [ロードバランサマネジメントコンソール](https://console.aws.amazon.com/ec2/v2/home#LoadBalancers:sort=loadBalancerName)から作成されたロードバランサを確認します。
 
 1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **target-group.json** を更新します。
-
 	```
 	sed -i.bak -e "s#%vpc%#$vpc#g" target-group.json
 	```
 
 1. 次のコマンドでターゲットグループを作成します。
-
 	```
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
 	```
 
 1. 環境変数にターゲットグループのARNを格納します。
-
 	```
 	export tg_arn=$(aws elbv2 describe-target-groups --names runningAmazonEC2WorkloadsAtScale --query TargetGroups[].TargetGroupArn --output text)
 	```
 
 1. 次のコマンドを実施し、作成したターゲットグループのARNで **modify-target-group.json** を更新します。
-
 	```
 	sed -i.bak -e "s#%TargetGroupArn%#$tg_arn#g" modify-target-group.json
 	```
@@ -67,7 +63,6 @@ weight = 90
 	```
 
 1. 次のコマンドでリスナーを作成します。
-
 	```
 	aws elbv2 create-listener --cli-input-json file://listener.json
 	```
