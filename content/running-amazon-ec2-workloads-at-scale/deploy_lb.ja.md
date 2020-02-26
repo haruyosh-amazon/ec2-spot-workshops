@@ -10,6 +10,7 @@ weight = 90
 ターゲットグループにルーティングされたリクエストは、プロトコルとポート番号に応じてEC2インスタンスのようなグループ内のターゲットにさらにルーティングされます。1つのターゲットを複数のターゲットグループに登録することもできます。ターゲットグループにはヘルスチェックを設定できます。ヘルスチェックはターゲットグループ内のすべてのターゲットに対して実行されます。
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **application-load-balancer.json** を更新します。
 
 	```
@@ -24,11 +25,20 @@ weight = 90
 
 =======
 1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **application-load-balancer.json** を更新します。 
+=======
+1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **application-load-balancer.json** を更新します。
+
+>>>>>>> updating
 	```
 	sed -i.bak -e "s#%publicSubnet1%#$publicSubnet1#g" -e "s#%publicSubnet2%#$publicSubnet2#g" -e "s#%loadBalancerSecurityGroup%#$loadBalancerSecurityGroup#g" application-load-balancer.json
 	```
+
 1. 更新されたjsonファイルの内容を確認します。問題がなければ次のコマンドでロードバランサを作成します。
+<<<<<<< HEAD
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	aws elbv2 create-load-balancer --cli-input-json file://application-load-balancer.json
 	```
@@ -41,36 +51,52 @@ weight = 90
 
 1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **target-group.json** を更新します。
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	sed -i.bak -e "s#%vpc%#$vpc#g" target-group.json
 	```
 
 1. 次のコマンドでターゲットグループを作成します。
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	aws elbv2 create-target-group --cli-input-json file://target-group.json
 	```
 
 1. 環境変数にターゲットグループのARNを格納します。
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	export tg_arn=$(aws elbv2 describe-target-groups --names runningAmazonEC2WorkloadsAtScale --query TargetGroups[].TargetGroupArn --output text)
 	```
 
 1. 次のコマンドを実施し、作成したターゲットグループのARNで **modify-target-group.json** を更新します。
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	sed -i.bak -e "s#%TargetGroupArn%#$tg_arn#g" modify-target-group.json
 	```
@@ -80,11 +106,15 @@ weight = 90
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。この設定項目の理解を深めるには、Elastic Load BalancingのApplication Load Balancerユーザーガイドの[登録解除の遅延](https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)の記述を参照してください。
 =======
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。
+<<<<<<< HEAD
 >>>>>>> updating
 
 =======
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	aws elbv2 modify-target-group-attributes --cli-input-json file://modify-target-group.json
 	```
@@ -94,18 +124,26 @@ weight = 90
 1. 次のコマンドを実施し、先ほどのステップで作成した**%LoadBalancerArn%** と **%TargetGroupArn%** で
  **listener.json** を更新します。
 <<<<<<< HEAD
+<<<<<<< HEAD
  
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+ 
+>>>>>>> updating
 	```
 	sed -i.bak -e "s#%LoadBalancerArn%#$alb_arn#g" -e "s#%TargetGroupArn%#$tg_arn#g" listener.json
 	```
 
 1. 次のコマンドでリスナーを作成します。
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> Adding some Japanese translations on running-ec2-workloads-at-scale
+=======
+
+>>>>>>> updating
 	```
 	aws elbv2 create-listener --cli-input-json file://listener.json
 	```
