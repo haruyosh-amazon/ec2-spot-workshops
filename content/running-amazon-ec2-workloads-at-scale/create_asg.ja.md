@@ -13,6 +13,7 @@ sed -i.bak -e "s#%TargetGroupARN%#$tg_arn#g" -e "s#%publicSubnet1%#$publicSubnet
 
 #### チャレンジしてみましょう
 これからデプロイするEC2 Auto Scalingグループは、[ミックスインスタンスグループ機能](https://aws.amazon.com/blogs/aws/new-ec2-auto-scaling-groups-with-multiple-instance-types-purchase-options/)(オンデマンドインスタンスとスポットインスタンス、および複数インスタンスタイプの混在環境)をサポートするものです。**asg.json**ファイルを確認し、次の質問に答えてみましょう。\
+<<<<<<< HEAD
 
 - Q. それぞれ何台のオンデマンドインスタンス、スポットインスタンスが起動されるでしょうか。\
 - Q. Overridesのセクションに列挙されたインスタンスタイプ一覧から、実際にオンデマンドインスタンスとして起動されるのはどのインスタンスタイプでしょうか。またスポットインスタンスはどうでしょうか。
@@ -55,5 +56,6 @@ Q. 各アベイラビリティゾーンに1台ずつスポットインスタン�
 次の図はeu-west-1リージョンにおける、ある日のm5.largeのスポットインスタンス価格です。アベイラビリティゾーンごとの価格推移が表示され、この図では直近3時間の推移が選択されています。
 
 ![spotpricehistory](/images/running-amazon-ec2-workloads-at-scale/spotpricehistory.png)
+
 
 {{% /expand %}}
