@@ -8,6 +8,7 @@ weight = 155
 ### スポットインスタンス中断への対処
 あるアベイラビリティゾーンのあるインスタンスタイプにおいてキャパシティが不足するとき、EC2サービスはキャパシティを回復させる必要があります。このとき、対象のアベイラビリティゾーンにおけるインスタンスタイプにスポットインスタンスが起動していれば、EC2サービスは該当するスポットインスタンスに2分前の中断通知を送付し、スポットインスタンスを中断することでEC2キャパシティの回復に充てます。2分前の中断通知はインスタンスメタデータサービス、およびCloudWatch Eventsから受け取ることができます。中断通知の詳細は[こちら](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices)のドキュメントを参照してください。
 ここでは、中断通知イベントをCloudWatch Events経由で受信し、それをトリガーにLambda関数を実行する仕組みを構築します。中断通知イベントは`EC2 Spot Instance Interruption Warning`という名称です。Lambda関数には、中断対象とマークされたスポットインスタンスをAuto Scalingグループからデタッチ([DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html))する動作を記述します。デタッチの詳細はEC2 Auto Scalingユーザーガイドの[Auto Scaling グループからの EC2 インスタンスのデタッチ](https://docs.aws.amazon.com/ja_jp/autoscaling/ec2/userguide/detach-instance-asg.html)を参照してください。
+<<<<<<< HEAD
 
   1. まず検討すべきポイントは、スポットインスタンスをデタッチするタイミングでAuto Scalingグループの希望容量を1台減らすのか、それとも台数変更なしにするのか、という点です。もし希望容量を変更しない場合、デタッチの直後にAuto Scalingサービスが新しいインスタンスを自動的に起動します。
 
@@ -41,15 +42,18 @@ weight = 155
 ### Handling Spot Interruptions
 あるアベイラビリティゾーンのあるインスタンスタイプにおいてキャパシティが不足してきたとき、EC2サービスはキャパシティを回復させる必要があります。このとき、対象のアベイラビリティゾーンにおけるインスタンスタイプにスポットインスタンスが起動していれば、EC2サービスは該当するスポットインスタンスに2分前の中断通知を送付し、スポットインスタンスを中断することでEC2キャパシティの回復に充てます。2分前の中断通知はインスタンスメタデータサービス、およびCloudWatch Eventsから受け取ることができます。中断通知の詳細は[こちら](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#spot-instance-termination-notices)のドキュメントを参照してください。
 ここでは、中断通知イベントをCloudWatch Events経由で受信し、それをトリガーにLambda関数を実行する仕組みを構築します。中断通知イベントは`EC2 Spot Instance Interruption Warning`という名称です。Lambda関数には、中断対象とマークされたスポットインスタンスをAuto Scalingグループからデタッチ([DetachInstances](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html))する動作を記述します。
+=======
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
-  1. まず検討すべきポイントは、スポットインスタンスをデタッチするタイミングでAuto Scalingグループの希望容量を1台減らすのか、それとも台数変更なしにするのか、という点です。もし希望容量の台数変更をしない場合、Auto Scalingサービスが自動的に新しいインスタンスを起動します。
+  1. まず検討すべきポイントは、スポットインスタンスをデタッチするタイミングでAuto Scalingグループの希望容量を1台減らすのか、それとも台数変更なしにするのか、という点です。もし希望容量を変更しない場合、デタッチの直後にAuto Scalingサービスが新しいインスタンスを自動的に起動します。
 
   1. 次に、今回のワークショップのようにAuto Scalingグループがロードバランサー配下に登録される場合、インスタンスがAuto Scalingグループからデタッチされるとき、ロードバランサーからも登録解除(deregister)されます。このとき、ロードバランサー(あるいはターゲットグループ)にConnection Draining(あるいは登録解除の遅延とも呼ばれます)が設定されていれば、Auto Scalingは処理中のコネクションが終了するまでデタッチを待ちます。今回、このタイムアウト値は中断通知の長さに合わせて120秒を設定しています。
 
 EC2 Auto Scalingのデタッチ動作については[こちらのドキュメント](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html)を参照してください。
 
-このワークショップでは、Lambda関数とClowdWatch Eventsを作成し、それぞれを関連付けるCloudFormationテンプレートを準備しました。
+ここでは、Lambda関数とClowdWatch Eventsを作成し、それぞれを関連付けるCloudFormationテンプレートを用いてこの仕組みを構築します。
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 To save time, we will use a CloudFormation template to deploy the Lambda Function that will handle EC2 Spot interruptions, and the CloudWatch event rule to catch the Spot Interruption notifications, and subscribe the Lambda Function to it. 
@@ -59,6 +63,9 @@ To save time, we will use a CloudFormation template to deploy the Lambda Functio
 =======
   1. CloudFormationテンプレートの内容を確認します。次のコマンドでスタックをデプロイします。
 >>>>>>> update spot_resilience
+=======
+  1. CloudFormationテンプレートの内容を確認し、次のコマンドでスタックを作成します。
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
     ```
     aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler --capabilities CAPABILITY_IAM
@@ -74,6 +81,7 @@ To save time, we will use a CloudFormation template to deploy the Lambda Functio
  1. 作成されたLambda関数の内容を確認します。Cloud9のインラインコードエディタを活用してください。
 
 これでスポットインスタンスの中断通知を受け取り、そのインスタンスを自動的にAuto Scalingグループからデタッチさせることができるようになりました。中断そのものをシミュレーションすることはできませんが、ここではLambda関数のテスト機能を使い、処理が正しく実行されるかを確認します。
+<<<<<<< HEAD
 
   1. Lambdaコンソール右上にあるドロップダウンメニューから「テストイベントの選択」をクリックしてドロップダウンメニューを表示させ、「テストイベントの設定」を選択します。グレーアウトされている場合にもそのままクリックし、ドロップダウンメニューを表示できます。
   1. 「テストイベントの設定」ダイアログボックスではイベント名に任意の名前を設定し(TestSpotInterruptionなど), 次のjsonを入力します。
@@ -110,6 +118,8 @@ To save time, we will use a CloudFormation template to deploy the Lambda Functio
  1. 作成されたLambda関数の内容を確認します。Cloud9のインラインコードエディタを活用してください。
 
 これでスポットインスタンスの中断通知を受け取り、そのインスタンスを自動的にAuto Scalingグループからデタッチさせることができるようになりました。中断そのものをシミュレーションすることはできませんが、ここではLambda関数のテスト機能を使って処理が正しく実行されるかを確認します。
+=======
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
 <<<<<<< HEAD
   1. In the top right corner of the AWS Lambda console, click the dropdown menu **Select a test event** -> **Configure test events**
@@ -239,16 +249,16 @@ If you have workloads that are not stateless and fault-tolerant like the Web app
 =======
 >>>>>>> update spot_resilience
 
-ここまでの手順で、実際にスポットインスタンスが中断される前にスポットインスタンスの中断通知を受けてシームレスに新しいスポットインスタンスを起動し、入れ替える仕組みを構築することができました。
+ここまでの手順で、スポットインスタンスの中断通知を受けたタイミングでシームレスに新しいスポットインスタンスを起動し、スポットインスタンスが終了する前に安全に入れ替える仕組みを構築することができました。
 
 {{% notice warning %}} 
 実際に中断が発生する場合、Auto ScalingグループからデタッチしたインスタンスはEC2スポットサービスにより自動的に終了(Terminate)されます。今回は単に中断イベントをシミュレーションしただけであったためインスタンスは終了されません。デタッチしたインスタンスを忘れずに終了させてください。
 {{% /notice %}}
 
 
-### Increasing the application's resilience when using Spot Instances
+### スポットインスタンスを利用するシステムの堅牢化
 
-これまでの手順では、スポットインスタンスの起動に際して、アベイラビリティゾーンごとに最も安い順に4種類のインスタンスタイプを9種類のインスタンスタイプから選択できるように構成してきました。ここからさらに、使用するインスタンスタイプとアベイラビリティゾーンの組み合わせを増やすことで、特定のスポットキャパシティプール(アベイラビリティゾーンとインスタンスタイプの組み合わせ)での中断の影響を緩和していくことができます。
+これまでスポットインスタンスの起動に際して、アベイラビリティゾーンごとに最も安い順に4種類のインスタンスタイプを9種類のインスタンスタイプから選択できるように構成してきました。ここからさらに、使用するインスタンスタイプとアベイラビリティゾーンの組み合わせを増やすことで、特定のスポットキャパシティプール(アベイラビリティゾーンとインスタンスタイプの組み合わせ)での中断の影響を緩和していくことができます。
 
 #### チャレンジしてみましょう
 
