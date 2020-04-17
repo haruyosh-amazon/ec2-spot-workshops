@@ -18,10 +18,14 @@ weight = 90
 	```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 1. 更新されたjsonファイルの内容を確認し、次のコマンドでロードバランサを作成します。
 =======
 1. 更新されたjsonファイルの内容を確認します。問題がなければ次のコマンドでロードバランサを作成します。
 >>>>>>> updating
+=======
+1. 更新されたjsonファイルの内容を確認し、次のコマンドでロードバランサを作成します。
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
 =======
 1. 次のコマンドを実施し、CloudFormationから作成したリソースIDで **application-load-balancer.json** を更新します。 
@@ -103,11 +107,15 @@ weight = 90
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。この設定項目の理解を深めるには、Elastic Load BalancingのApplication Load Balancerユーザーガイドの[登録解除の遅延](https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)の記述を参照してください。
 =======
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。
 <<<<<<< HEAD
 >>>>>>> updating
+=======
+1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。この設定項目の理解を深めるには、Elastic Load BalancingのApplication Load Balancerユーザーガイドの[登録解除の遅延](https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay)の記述を参照してください。
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
 =======
 1. デフォルトで5分となっているターゲットグループのderegistration_delay_timeout値を2分に更新し、スポットインスタンスの中断通知の猶予時間に合わせます。

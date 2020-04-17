@@ -14,6 +14,7 @@ weight = 155
 EC2 Auto Scalingのデタッチ動作については[こちらのドキュメント](https://docs.aws.amazon.com/autoscaling/ec2/userguide/detach-instance-asg.html)を参照してください。
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ここでは、Lambda関数とCloudWatch Eventsを作成し、それぞれを関連付けるCloudFormationテンプレートを用いてこの仕組みを構築します。
 
   1. CloudFormationテンプレートの内容を確認し、次のコマンドでスタックを作成します。
@@ -22,6 +23,11 @@ EC2 Auto Scalingのデタッチ動作については[こちらのドキュメン
 
   1. CloudFormationテンプレートの内容を確認します。次のコマンドでスタックをデプロイします。
 >>>>>>> update spot_resilience
+=======
+ここでは、Lambda関数とClowdWatch Eventsを作成し、それぞれを関連付けるCloudFormationテンプレートを用いてこの仕組みを構築します。
+
+  1. CloudFormationテンプレートの内容を確認し、次のコマンドでスタックを作成します。
+>>>>>>> Modifieng all other feedbacks from the dry-run session
 
     ```
     aws cloudformation deploy --template-file spot-interruption-handler.yaml --stack-name spotinterruptionhandler --capabilities CAPABILITY_IAM
@@ -49,7 +55,7 @@ EC2 Auto Scalingのデタッチ動作については[こちらのドキュメン
  
  1. 作成されたLambda関数の内容を確認します。Cloud9のインラインコードエディタを活用してください。
 
-これでスポットインスタンスの中断通知を受け取り、そのインスタンスを自動的にAuto Scalingグループからデタッチさせることができるようになりました。中断そのものをシミュレーションすることはできませんが、ここではLambda関数のテスト機能を使って処理が正しく実行されるかを確認します。
+これでスポットインスタンスの中断通知を受け取り、そのインスタンスを自動的にAuto Scalingグループからデタッチさせることができるようになりました。中断そのものをシミュレーションすることはできませんが、ここではLambda関数のテスト機能を使い、処理が正しく実行されるかを確認します。
 
 <<<<<<< HEAD
   1. In the top right corner of the AWS Lambda console, click the dropdown menu **Select a test event** -> **Configure test events**
@@ -132,16 +138,16 @@ EC2 Auto Scalingのデタッチ動作については[こちらのドキュメン
 =======
 >>>>>>> update spot_resilience
 
-ここまでの手順で、実際にスポットインスタンスが中断される前にスポットインスタンスの中断通知を受けてシームレスに新しいスポットインスタンスを起動し、入れ替える仕組みを構築することができました。
+ここまでの手順で、スポットインスタンスの中断通知を受けたタイミングでシームレスに新しいスポットインスタンスを起動し、スポットインスタンスが終了する前に安全に入れ替える仕組みを構築することができました。
 
 {{% notice warning %}} 
 実際に中断が発生する場合、Auto ScalingグループからデタッチしたインスタンスはEC2スポットサービスにより自動的に終了(Terminate)されます。今回は単に中断イベントをシミュレーションしただけであったためインスタンスは終了されません。デタッチしたインスタンスを忘れずに終了させてください。
 {{% /notice %}}
 
 
-### Increasing the application's resilience when using Spot Instances
+### スポットインスタンスを利用するシステムの堅牢化
 
-これまでの手順では、スポットインスタンスの起動に際して、アベイラビリティゾーンごとに最も安い順に4種類のインスタンスタイプを9種類のインスタンスタイプから選択できるように構成してきました。ここからさらに、使用するインスタンスタイプとアベイラビリティゾーンの組み合わせを増やすことで、特定のスポットキャパシティプール(アベイラビリティゾーンとインスタンスタイプの組み合わせ)での中断の影響を緩和していくことができます。
+これまでスポットインスタンスの起動に際して、アベイラビリティゾーンごとに最も安い順に4種類のインスタンスタイプを9種類のインスタンスタイプから選択できるように構成してきました。ここからさらに、使用するインスタンスタイプとアベイラビリティゾーンの組み合わせを増やすことで、特定のスポットキャパシティプール(アベイラビリティゾーンとインスタンスタイプの組み合わせ)での中断の影響を緩和していくことができます。
 
 #### チャレンジしてみましょう
 
